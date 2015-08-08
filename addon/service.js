@@ -19,7 +19,7 @@ export default Ember.Service.extend({
 	//
 
 	send : function(method, data) {
-
+		var self = this;
 		return new Ember.RSVP.Promise(function(resolve, reject) {
 
 			$.ajax(
