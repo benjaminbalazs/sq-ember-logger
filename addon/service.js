@@ -11,7 +11,7 @@ export default Ember.Service.extend({
 	},
 
 	error : function(error) {
-		console.log(error);
+
 		this.send('error', { error: this.prefix + ' ' + JSON.stringify(error) });
 
 	},
