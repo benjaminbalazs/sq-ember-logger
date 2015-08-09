@@ -11,7 +11,7 @@ export default Ember.Service.extend({
 	},
 
 	error : function(error) {
-
+		console.log(error);
 		this.send('error', { error: this.prefix + ' ' + JSON.stringify(error) });
 
 	},
@@ -53,6 +53,16 @@ export default Ember.Service.extend({
 		this.api_namespace =  "/" + config.APP.api_namespace + "/logger";
 		this.prefix = config.modulePrefix;
 
-	})
+		var self = this;
+
+		Ember.onerror = function(error) {
+			self.error(error.stack);
+		};
+
+		Ember.RSVP.on('error', function(error) {
+  			Ember.Logger.assert(false, error);
+		});
+
+	}),
 
 });
