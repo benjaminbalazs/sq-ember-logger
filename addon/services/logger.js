@@ -19,6 +19,9 @@ export default Ember.Service.extend({
 	//
 
 	send : function(method, data) {
+
+		if ( this.production !== 'production' ) return;
+
 		var self = this;
 		return new Ember.RSVP.Promise(function(resolve, reject) {
 
@@ -52,15 +55,18 @@ export default Ember.Service.extend({
 		
 		this.api_namespace =  "/" + config.APP.api_namespace + "/logger";
 		this.prefix = config.modulePrefix;
+		this.production = ( config.enviroement === 'production' );
 
 		var self = this;
 
 		Ember.onerror = function(error) {
+			Ember.Logger.assert(false, error);
 			self.error(error.stack);
 		};
 
 		Ember.RSVP.on('error', function(error) {
   			Ember.Logger.assert(false, error);
+  			self.error(error.stack);
 		});
 
 	}),

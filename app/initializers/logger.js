@@ -1,4 +1,4 @@
-import LoggerService from 'sq-ember-logger/service';
+import LoggerService from '../services/logger';
 
 export function initialize (container, app) {
 
