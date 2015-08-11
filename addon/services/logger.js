@@ -59,15 +59,17 @@ export default Ember.Service.extend({
 
 		var self = this;
 
-		Ember.onerror = function(error) {
-			Ember.Logger.assert(false, error);
-			self.error(error.stack);
-		};
+		if ( this.production ) {
+			Ember.onerror = function(error) {
+				Ember.Logger.assert(false, error);
+				self.error(error.stack);
+			};
 
-		Ember.RSVP.on('error', function(error) {
-  			Ember.Logger.assert(false, error);
-  			self.error(error.stack);
-		});
+			Ember.RSVP.on('error', function(error) {
+	  			Ember.Logger.assert(false, error);
+	  			self.error(error.stack);
+			});
+		}
 
 	}),
 
