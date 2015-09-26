@@ -4,13 +4,13 @@ export default Ember.Service.extend({
 
 	//
 
-	log : function(message, details) {
+	log(message, details) {
 
 		this.send('log', { message: this.prefix + ' ' + message, details: details });
 
 	},
 
-	error : function(error) {
+	error(error) {
 
 		this.send('error', { error: this.prefix + ' ' + JSON.stringify(error) });
 
@@ -18,7 +18,7 @@ export default Ember.Service.extend({
 
 	//
 
-	send : function(method, data) {
+	send(method, data) {
 
 		if ( this.production !== 'production' ) return;
 
@@ -27,8 +27,8 @@ export default Ember.Service.extend({
 
 			$.ajax(
 		 			{
-					    url: self.api_namespace + "/" + method, 
-					    type: 'POST', 
+					    url: self.api_namespace + "/" + method,
+					    type: 'POST',
 					    contentType: 'application/vnd.api+json',
 					    data: JSON.stringify(data),
 					    dataType: 'json',
@@ -49,10 +49,12 @@ export default Ember.Service.extend({
 
 	//
 
-	initialize : Ember.on('init', function() {
+	init() {
+
+		this._super();
 
 		var config = this.container.lookupFactory('config:environment');
-		
+
 		this.api_namespace =  "/" + config.APP.api_namespace + "/logger";
 		this.prefix = config.modulePrefix;
 		this.production = ( config.enviroement === 'production' );
@@ -64,13 +66,12 @@ export default Ember.Service.extend({
 				Ember.Logger.assert(false, error);
 				self.error(error.stack);
 			};
-
 			Ember.RSVP.on('error', function(error) {
 	  			Ember.Logger.assert(false, error);
 	  			self.error(error.stack);
 			});
 		}
 
-	}),
+	},
 
 });
