@@ -1,6 +1,6 @@
 import LoggerService from '../services/logger';
 
-export function initialize (container, app) {
+export function initialize (app) {
 
 	app.register('logger:main', LoggerService);
 
